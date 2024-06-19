@@ -2,22 +2,32 @@ CXX = clang++
 CXXFLAGS = -std=c++2b
 INSTALL = install
 INSTALL_DATA = $(INSTALL) -m 644
-VERSION = $(shell cat VERSION)
 
 prefix := /usr/local
 includedir := $(prefix)/include
 
-all: src/know.hpp
+SOURCES := $(wildcard src/*.hpp src/*/*.hpp src/*/*/*.hpp)
+VERSION := $(shell cat VERSION)
 
-check: src/know.hpp
+all: $(SOURCES)
+
+check: $(SOURCES)
 	$(CXX) -fsyntax-only $(CXXFLAGS) $<
 
-install: src/know.hpp
-	mkdir -p $(DESTDIR)$(includedir)/
-	$(INSTALL_DATA) $^ $(DESTDIR)$(includedir)/
+install: installdirs $(SOURCES)
+	$(INSTALL_DATA) src/know.hpp $(DESTDIR)$(includedir)/
+	$(INSTALL_DATA) src/know/*.hpp $(DESTDIR)$(includedir)/know/
+	$(INSTALL_DATA) src/know/classes/*.hpp $(DESTDIR)$(includedir)/know/classes/
+
+installdirs:
+	$(INSTALL) -d $(DESTDIR)$(includedir)/
+	$(INSTALL) -d $(DESTDIR)$(includedir)/know
+	$(INSTALL) -d $(DESTDIR)$(includedir)/know/classes
 
 uninstall:
 	rm -f $(DESTDIR)$(includedir)/know.hpp
+	rm -f $(DESTDIR)$(includedir)/know/classes.hpp
+	rm -f $(DESTDIR)$(includedir)/know/classes/*.hpp
 
 clean:
 	@rm -f *~
