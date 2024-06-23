@@ -2,9 +2,29 @@
 
 #pragma once
 
-namespace know { class synagogue; }
+#include <cstdint> // for std::uint64_t
+#include <ctime>   // for std::time_t
+#include <memory>  // for std::shared_ptr
+#include <string>  // for std::string
+#include <vector>  // for std::vector
+
+#include "temple.hpp"
+
+namespace know {
+  class synagogue;
+  class temple;
+}
 
 class know::synagogue {
+  using string = ::std::string;
+  template<typename T> using shared_ptr = ::std::shared_ptr<T>;
+  template<typename T> using vector = ::std::vector<T>;
+
 public:
-  virtual ~synagogue() = default;
+  inline virtual ~synagogue() = default;
+
+  inline virtual shared_ptr<synagogue> clone() const {
+    auto clone = std::make_shared<synagogue>();
+    return clone;
+  }
 };

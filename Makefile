@@ -1,5 +1,5 @@
 CXX = clang++
-CXXFLAGS = -std=c++2b
+CXXFLAGS = -std=c++2b -Wall -Wextra
 INSTALL = install
 INSTALL_DATA = $(INSTALL) -m 644
 

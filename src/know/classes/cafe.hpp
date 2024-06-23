@@ -2,9 +2,29 @@
 
 #pragma once
 
-namespace know { class cafe; }
+#include <cstdint> // for std::uint64_t
+#include <ctime>   // for std::time_t
+#include <memory>  // for std::shared_ptr
+#include <string>  // for std::string
+#include <vector>  // for std::vector
+
+#include "place.hpp"
+
+namespace know {
+  class cafe;
+  class place;
+}
 
 class know::cafe {
+  using string = ::std::string;
+  template<typename T> using shared_ptr = ::std::shared_ptr<T>;
+  template<typename T> using vector = ::std::vector<T>;
+
 public:
-  virtual ~cafe() = default;
+  inline virtual ~cafe() = default;
+
+  inline virtual shared_ptr<cafe> clone() const {
+    auto clone = std::make_shared<cafe>();
+    return clone;
+  }
 };

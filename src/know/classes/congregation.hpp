@@ -2,9 +2,29 @@
 
 #pragma once
 
-namespace know { class congregation; }
+#include <cstdint> // for std::uint64_t
+#include <ctime>   // for std::time_t
+#include <memory>  // for std::shared_ptr
+#include <string>  // for std::string
+#include <vector>  // for std::vector
+
+#include "group.hpp"
+
+namespace know {
+  class congregation;
+  class group;
+}
 
 class know::congregation {
+  using string = ::std::string;
+  template<typename T> using shared_ptr = ::std::shared_ptr<T>;
+  template<typename T> using vector = ::std::vector<T>;
+
 public:
-  virtual ~congregation() = default;
+  inline virtual ~congregation() = default;
+
+  inline virtual shared_ptr<congregation> clone() const {
+    auto clone = std::make_shared<congregation>();
+    return clone;
+  }
 };

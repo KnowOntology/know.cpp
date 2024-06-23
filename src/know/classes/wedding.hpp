@@ -2,9 +2,29 @@
 
 #pragma once
 
-namespace know { class wedding; }
+#include <cstdint> // for std::uint64_t
+#include <ctime>   // for std::time_t
+#include <memory>  // for std::shared_ptr
+#include <string>  // for std::string
+#include <vector>  // for std::vector
+
+#include "event.hpp"
+
+namespace know {
+  class wedding;
+  class event;
+}
 
 class know::wedding {
+  using string = ::std::string;
+  template<typename T> using shared_ptr = ::std::shared_ptr<T>;
+  template<typename T> using vector = ::std::vector<T>;
+
 public:
-  virtual ~wedding() = default;
+  inline virtual ~wedding() = default;
+
+  inline virtual shared_ptr<wedding> clone() const {
+    auto clone = std::make_shared<wedding>();
+    return clone;
+  }
 };

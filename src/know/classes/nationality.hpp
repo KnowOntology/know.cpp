@@ -2,9 +2,29 @@
 
 #pragma once
 
-namespace know { class nationality; }
+#include <cstdint> // for std::uint64_t
+#include <ctime>   // for std::time_t
+#include <memory>  // for std::shared_ptr
+#include <string>  // for std::string
+#include <vector>  // for std::vector
+
+#include "group.hpp"
+
+namespace know {
+  class nationality;
+  class group;
+}
 
 class know::nationality {
+  using string = ::std::string;
+  template<typename T> using shared_ptr = ::std::shared_ptr<T>;
+  template<typename T> using vector = ::std::vector<T>;
+
 public:
-  virtual ~nationality() = default;
+  inline virtual ~nationality() = default;
+
+  inline virtual shared_ptr<nationality> clone() const {
+    auto clone = std::make_shared<nationality>();
+    return clone;
+  }
 };
