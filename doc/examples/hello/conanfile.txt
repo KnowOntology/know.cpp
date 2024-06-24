@@ -1,0 +1,6 @@
+[requires]
+know.cpp/0.0.0
+
+[generators]
+CMakeDeps
+CMakeToolchain
