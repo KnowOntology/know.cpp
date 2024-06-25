@@ -3,6 +3,7 @@
 from conan import ConanFile
 from conan.tools.build import check_min_cppstd
 from conan.tools.files import copy
+from conan.tools.layout import basic_layout
 from os import path
 
 class KnowCppConan(ConanFile):
@@ -19,14 +20,21 @@ class KnowCppConan(ConanFile):
     no_copy_source = True
 
     def layout(self):
-        self.folders.source = "src"
+        basic_layout(self, src_folder="src")
 
     def validate(self):
         #check_min_cppstd(self, 23) # FIXME: Conan 2.4.1 appears to be defective
         pass
 
+    def export_sources(self):
+        copy(self, "UNLICENSE", src=self.recipe_folder, dst=self.export_sources_folder)
+
+    def build(self):
+        pass
+
     def package(self):
-        copy(self, "*.hpp", self.source_folder, path.join(self.package_folder, "include"))
+        copy(self, "*.hpp", src=self.source_folder, dst=path.join(self.package_folder, "include"))
+        copy(self, "UNLICENSE", src=self.export_sources_folder, dst=path.join(self.package_folder, "licenses"))
 
     def package_info(self):
         self.cpp_info.bindirs = []
